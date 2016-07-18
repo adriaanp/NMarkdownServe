@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MarkdownBrowser;
 using Microsoft.Extensions.Options;
 using Markdig;
 using System.IO;
@@ -31,7 +26,7 @@ namespace MarkdownBrowser.Controllers
             var filePath = Path.Combine(_options.Folder, $"{pageName}.md");
             var content = System.IO.File.ReadAllText(filePath);
 
-            return Content(Markdown.ToHtml(content));
+            return Content(Markdown.ToHtml(content), "text/html");
         }
 
         public IActionResult Error()
