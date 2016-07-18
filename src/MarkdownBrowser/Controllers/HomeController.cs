@@ -3,28 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MarkdownBrowser;
+using Microsoft.Extensions.Options;
+using Markdig;
+using System.IO;
 
 namespace MarkdownBrowser.Controllers
 {
+    [Route("/")]
     public class HomeController : Controller
     {
+        private MarkdownOptions _options;
+
+        public HomeController(IOptions<MarkdownOptions> optionAccessor)
+        {
+            _options = optionAccessor.Value;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult About()
+        [Route("{pageName}")]
+        public IActionResult Index(string pageName)
         {
-            ViewData["Message"] = "Your application description page.";
+            var filePath = Path.Combine(_options.Folder, $"{pageName}.md");
+            var content = System.IO.File.ReadAllText(filePath);
 
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            return Content(Markdown.ToHtml(content));
         }
 
         public IActionResult Error()
