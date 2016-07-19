@@ -8,25 +8,15 @@ namespace MarkdownBrowser.Controllers
     [Route("/")]
     public class HomeController : Controller
     {
-        private MarkdownOptions _options;
-
-        public HomeController(IOptions<MarkdownOptions> optionAccessor)
-        {
-            _options = optionAccessor.Value;
-        }
-
         public IActionResult Index()
         {
-            return View();
+            return View("Index", "default");
         }
 
         [Route("{pageName}")]
         public IActionResult Index(string pageName)
         {
-            var filePath = Path.Combine(_options.Folder, $"{pageName}.md");
-            var content = System.IO.File.ReadAllText(filePath);
-
-            return Content(Markdown.ToHtml(content), "text/html");
+            return View("Index", pageName);
         }
 
         public IActionResult Error()
