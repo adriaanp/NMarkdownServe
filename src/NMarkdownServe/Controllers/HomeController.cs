@@ -1,7 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Markdig;
-using System.IO;
 
 namespace NMarkdownServe.Controllers
 {
@@ -19,6 +16,7 @@ namespace NMarkdownServe.Controllers
             return View("Index", pageName);
         }
 
+        [Route("error")]
         public IActionResult Error()
         {
             return View();
