@@ -1,3 +1,3 @@
-# Markdown Browser
+# NMarkdownServe
 
-Markdown browser lets you point it do a directory and will serve any Markdown files.
+NMarkdownServe is a server that hosts markdown files. 

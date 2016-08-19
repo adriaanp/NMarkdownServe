@@ -4,7 +4,7 @@ using Markdig;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 
-namespace MarkdownBrowser.Controllers.ViewComponents
+namespace NMarkdownServe.Controllers.ViewComponents
 {
     public class MarkdownViewComponent: ViewComponent
     {

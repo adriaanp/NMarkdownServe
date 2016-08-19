@@ -69,6 +69,6 @@
   },
 
   "tooling": {
-    "defaultNamespace": "MarkdownBrowser"
+    "defaultNamespace": "NMarkdownServe"
   }
 }

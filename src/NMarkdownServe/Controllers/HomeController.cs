@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Markdig;
 using System.IO;
 
-namespace MarkdownBrowser.Controllers
+namespace NMarkdownServe.Controllers
 {
     [Route("/")]
     public class HomeController : Controller
