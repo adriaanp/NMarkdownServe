@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,11 +17,15 @@ namespace NMarkdownServe
     {
         public Startup(IHostingEnvironment env)
         {
+            var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddCommandLine(args)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
             Configuration = builder.Build();
         }
 
@@ -38,6 +44,9 @@ namespace NMarkdownServe
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            var logger = loggerFactory.CreateLogger("App");
+            logger.LogDebug($"using markdown folder: {Configuration["MarkdownFolder"]}");
 
             if (env.IsDevelopment())
             {
