@@ -1,9 +1,11 @@
 using System;
+using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 
 namespace NMarkdownServe
@@ -15,6 +17,8 @@ namespace NMarkdownServe
 
     public class Startup
     {
+        private const string MarkdownFolderKey = "MarkdownFolder";
+
         public Startup(IHostingEnvironment env)
         {
             var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
@@ -44,9 +48,10 @@ namespace NMarkdownServe
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            var logger = loggerFactory.CreateLogger<Startup>();
 
-            var logger = loggerFactory.CreateLogger("App");
-            logger.LogDebug($"using markdown folder: {Configuration["MarkdownFolder"]}");
+            var markdownFolder = Configuration[MarkdownFolderKey];
+            logger.LogDebug($"Using markdown folder: {markdownFolder}");
 
             if (env.IsDevelopment())
             {
@@ -59,6 +64,11 @@ namespace NMarkdownServe
             }
 
             app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(markdownFolder)
+            });
 
             app.UseMvc(routes =>
             {
