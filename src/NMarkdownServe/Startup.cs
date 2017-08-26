@@ -67,7 +67,7 @@ namespace NMarkdownServe
 
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(markdownFolder)
+                FileProvider = new PhysicalFileProvider(Path.GetFullPath(markdownFolder))
             });
 
             app.UseMvc(routes =>
